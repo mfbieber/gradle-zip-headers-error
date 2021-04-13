@@ -1,0 +1,18 @@
+task ziptest(type: Zip) {
+  archiveName "test.zip"
+
+  destinationDir file(".")
+  duplicatesStrategy DuplicatesStrategy.EXCLUDE
+  zip64 true
+  includeEmptyDirs = false
+  
+  def buildFile = new File(".", 'test.txt')
+  buildFile.text = "test"
+  into ('/') { from buildFile }
+  
+  doLast {
+    delete fileTree('.') {
+        include '*.txt'
+    }
+  }
+}
